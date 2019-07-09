@@ -113,6 +113,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(view.getId()==R.id.check_button)
         {
             checkAnswer(mEditText.getText().toString());
+            score_view.setText("Score: " + score);
+        }
+        else if (view.getId()==R.id.a_button)
+        {
+            checkAnswer(mTextView.getInputType());
+            score_view.setText("Score: " + score);
         }
         else if(view.getId()== R.id.next_button)
         {
@@ -185,16 +191,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
                 mTrueFalseContainer.setVisibility(View.VISIBLE);
                 mFillTheBlankContainer.setVisibility(View.GONE);
+                mMultipleChoiceContainer.setVisibility(View.GONE);
         }
         else if(mQuestions[mIndex].isFillTheBlankQuestion())
         {
             mTrueFalseContainer.setVisibility(View.GONE);
             mFillTheBlankContainer.setVisibility(View.VISIBLE);
+            mMultipleChoiceContainer.setVisibility(View.GONE);
         }
         else if (mQuestions[mIndex].isMultipleChoiceQuestion())
         {
             mTrueFalseContainer.setVisibility(View.GONE);
             mFillTheBlankContainer.setVisibility(View.GONE);
+            mMultipleChoiceContainer.setVisibility(View.VISIBLE);
             int optionsResId =((MultipleChoiceQuestion)mQuestions[mIndex]).getmOptionsResIds();
             String[] options=getResources().getStringArray(optionsResId);
             mAbutton.setText(options[0]);
@@ -231,6 +240,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public boolean checkAnswer(String userInput)
+    {
+        if(mQuestions[mIndex].checkAnswer(userInput))
+        {
+            score++;
+            Toast myToast = Toast.makeText(this, "You are correct", Toast.LENGTH_LONG);
+            myToast.show();
+            return true;
+        }
+        else
+        {
+            score--;
+            Toast myToast = Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT);
+            myToast.show();
+            return false;
+        }
+    }
+    public boolean checkAnswer(int userInput)
     {
         if(mQuestions[mIndex].checkAnswer(userInput))
         {
