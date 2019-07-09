@@ -117,7 +117,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if (view.getId()==R.id.a_button)
         {
-            checkAnswer(mTextView.getInputType());
+
+//            checkAnswer(mTextView.getInputType());
+
+            checkAnswer(0);
             score_view.setText("Score: " + score);
         }
         else if(view.getId()== R.id.next_button)
