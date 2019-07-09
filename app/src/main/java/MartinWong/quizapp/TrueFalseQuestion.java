@@ -2,7 +2,7 @@ package MartinWong.quizapp;
 
 import MartinWong.quizapp.Question;
 
-public class TrueFalseQuestion extends Question {
+public class  TrueFalseQuestion extends Question {
     private boolean mAnswer;
 
     public TrueFalseQuestion(int textResId, int hintResId, boolean ans) {
@@ -13,5 +13,9 @@ public class TrueFalseQuestion extends Question {
     @Override
     public boolean checkAnswer(boolean ans){
         return mAnswer==ans;
+    }
+    @Override
+    public boolean isTrueFalseQuestion(){
+        return true;
     }
 }

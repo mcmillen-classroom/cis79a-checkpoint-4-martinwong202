@@ -6,13 +6,22 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView mTextView;
+    private EditText mEditText;
+
+    private LinearLayout mTrueFalseContainer;
+    private LinearLayout mFillTheBlankContainer;
+
+
+
     TextView score_view;
     int score = 0;
 //    private ScoreView mScoreView;
@@ -23,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mNextButton;
     private ImageButton mBackButton;
     private Button mHintButton;
+    private Button mCheckButton;
 
     private MartinWong.quizapp.Question[] mQuestions;
     private int mIndex;
@@ -38,6 +48,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNextButton = (ImageButton) findViewById(R.id.next_button);
         mBackButton = (ImageButton) findViewById(R.id.BackButton);
         mHintButton = (Button) findViewById(R.id.HintButton);
+        mCheckButton= (Button) findViewById(R.id.check_button);
+
+        mTrueFalseContainer=(LinearLayout)findViewById(R.id.true_false_container);
+        mFillTheBlankContainer=(LinearLayout)findViewById(R.id.fill_the_blank_container);
+
+        mEditText=(EditText)findViewById(R.id.edit_text);
 
         score_view = (TextView) findViewById(R.id.score_view);
         score_view.setText("Score: " + score);
@@ -47,8 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNextButton.setOnClickListener(this);
         mBackButton.setOnClickListener(this);
         mHintButton.setOnClickListener(this);
+        mCheckButton.setOnClickListener(this);
 
-        mQuestions= new MartinWong.quizapp.Question[5];
+        mQuestions= new MartinWong.quizapp.Question[6];
         mIndex=0;
         mScore=0;
 
@@ -58,8 +75,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mQuestions[2]= new TrueFalseQuestion(R.string.question3, R.string.question_3_hint,true);
         mQuestions[3]= new TrueFalseQuestion(R.string.question4, R.string.question_4_hint,false);
         mQuestions[4]= new TrueFalseQuestion(R.string.question5, R.string.question_5_hint,true);
+        String[] q6Answers = getResources().getStringArray(R.array.question6answers);
+        mQuestions[5]= new FillTheBlank(R.string.question6, R .string.questuion_6_hint, q6Answers);
 
-        mTextView.setText(mQuestions[mIndex].getTextResId());
+        //Set up the first question
+        setupQuestion();
     }
 
     @Override
@@ -74,9 +94,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             score_view.setText("Score: " + score);
 
         }
+        else if(view.getId()==R.id.check_button)
+        {
+            checkAnswer(mEditText.getText().toString());
+        }
         else if(view.getId()== R.id.next_button)
         {
-            if(mIndex == 4)
+            if(mIndex == 5)
             {
                 Toast myToast = Toast.makeText(this, "You are done!", Toast.LENGTH_SHORT);
                 myToast.show();
@@ -85,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 mIndex++;
                 //Do if statement here:
-                mTextView.setText(mQuestions[mIndex].getTextResId());
+              setupQuestion();
             }
         }
         else if(view.getId()== R.id.BackButton)
@@ -98,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else {
                 mIndex--;
                 //Do if statement here:
-                mTextView.setText(mQuestions[mIndex].getTextResId());
+               setupQuestion();
             }
         }
         if(view.getId()== R.id.HintButton )
@@ -138,6 +162,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            }
         }
     }
+
+    public void setupQuestion(){
+        mTextView.setText(mQuestions[mIndex].getTextResId());
+        if(mQuestions[mIndex].isTrueFalseQuestion())
+        {
+                mTrueFalseContainer.setVisibility(View.VISIBLE);
+                mFillTheBlankContainer.setVisibility(View.GONE);
+        }
+        else if(mQuestions[mIndex].isFillTheBlankQuestion())
+        {
+            mTrueFalseContainer.setVisibility(View.GONE);
+            mFillTheBlankContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
     public boolean checkAnswer(boolean userInput)
     {
         if(mQuestions[mIndex].checkAnswer(userInput))
@@ -153,6 +192,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            myToast = Toast.makeText(this, "Score:"+mScore, Toast.LENGTH_SHORT);
 //            myToast.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 0);
 //            myToast.show();
+            return true;
+        }
+        else
+        {
+            score--;
+            Toast myToast = Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT);
+            myToast.show();
+            return false;
+        }
+    }
+
+    public boolean checkAnswer(String userInput)
+    {
+        if(mQuestions[mIndex].checkAnswer(userInput))
+        {
+            score++;
+            Toast myToast = Toast.makeText(this, "You are correct", Toast.LENGTH_LONG);
+            myToast.show();
             return true;
         }
         else

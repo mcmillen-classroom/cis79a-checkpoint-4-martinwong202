@@ -8,11 +8,19 @@
     <string name="question3">Is blastoise a water type pokemon?</string>
     <string name="question4">Is sylveon a psychic type pokemon?</string>
     <string name="question5">Is it true eevee has eight evolution?</string>
+    <string name ="question6">How old is Ash?</string>
     <string name="next_button">Next</string>
     <string name="question_1_hint">Good against grass</string>
     <string name="question_2_hint">Good against water.</string>
     <string name="question_3_hint">Good against fire.</string>
     <string name="question_4_hint">What is Espeon?</string>
     <string name="question_5_hint">List out the evolutions.</string>
+    <string name="questuion_6_hint">Does he age at all?</string>
     <string name="score"></string>
+    <string name="check_button">Check</string>
+    <string-array name="question6answers">
+        <item>10</item>
+        <item>Ten</item>
+        <item>ten years old</item>
+    </string-array>
 </resources>
