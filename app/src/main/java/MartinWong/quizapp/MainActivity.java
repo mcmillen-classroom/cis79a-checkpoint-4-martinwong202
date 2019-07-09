@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private LinearLayout mTrueFalseContainer;
     private LinearLayout mFillTheBlankContainer;
+    private LinearLayout mMultipleChoiceContainer;
+//    private LinearLayout m
 
 
 
@@ -33,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mBackButton;
     private Button mHintButton;
     private Button mCheckButton;
+    private Button mAbutton;
+    private Button mBbutton;
+    private Button mCbutton;
+    private Button mDbutton;
 
     private MartinWong.quizapp.Question[] mQuestions;
     private int mIndex;
@@ -49,9 +55,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBackButton = (ImageButton) findViewById(R.id.BackButton);
         mHintButton = (Button) findViewById(R.id.HintButton);
         mCheckButton= (Button) findViewById(R.id.check_button);
+        mAbutton= (Button) findViewById(R.id.a_button);
+        mBbutton= (Button) findViewById(R.id.b_button);
+        mCbutton= (Button) findViewById(R.id.c_button);
+        mDbutton= (Button) findViewById(R.id.d_button);
 
         mTrueFalseContainer=(LinearLayout)findViewById(R.id.true_false_container);
         mFillTheBlankContainer=(LinearLayout)findViewById(R.id.fill_the_blank_container);
+        mMultipleChoiceContainer=(LinearLayout)findViewById(R.id.multiple_choice_container);
 
         mEditText=(EditText)findViewById(R.id.edit_text);
 
@@ -64,8 +75,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBackButton.setOnClickListener(this);
         mHintButton.setOnClickListener(this);
         mCheckButton.setOnClickListener(this);
+        mAbutton.setOnClickListener(this);
+        mBbutton.setOnClickListener(this);
+        mCbutton.setOnClickListener(this);
+        mDbutton.setOnClickListener(this);
 
-        mQuestions= new MartinWong.quizapp.Question[6];
+
+        mQuestions= new MartinWong.quizapp.Question[7];
         mIndex=0;
         mScore=0;
 
@@ -77,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mQuestions[4]= new TrueFalseQuestion(R.string.question5, R.string.question_5_hint,true);
         String[] q6Answers = getResources().getStringArray(R.array.question6answers);
         mQuestions[5]= new FillTheBlank(R.string.question6, R .string.questuion_6_hint, q6Answers);
-
+        mQuestions[6]=new MultipleChoiceQuestion(R.string.question7,R.string.question_7_hint,R.array.question7answers, 0);
         //Set up the first question
         setupQuestion();
     }
@@ -100,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(view.getId()== R.id.next_button)
         {
-            if(mIndex == 5)
+            if(mIndex == 6)
             {
                 Toast myToast = Toast.makeText(this, "You are done!", Toast.LENGTH_SHORT);
                 myToast.show();
@@ -174,6 +190,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             mTrueFalseContainer.setVisibility(View.GONE);
             mFillTheBlankContainer.setVisibility(View.VISIBLE);
+        }
+        else if (mQuestions[mIndex].isMultipleChoiceQuestion())
+        {
+            mTrueFalseContainer.setVisibility(View.GONE);
+            mFillTheBlankContainer.setVisibility(View.GONE);
+            int optionsResId =((MultipleChoiceQuestion)mQuestions[mIndex]).getmOptionsResIds();
+            String[] options=getResources().getStringArray(optionsResId);
+            mAbutton.setText(options[0]);
+            mBbutton.setText(options[1]);
+            mCbutton.setText(options[2]);
+            mDbutton.setText(options[3]);
         }
     }
 

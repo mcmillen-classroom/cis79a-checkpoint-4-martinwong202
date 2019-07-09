@@ -53,4 +53,6 @@ public class Question {
     public boolean isFillTheBlankQuestion(){return false;}
     //stub
     public boolean isMultipleChoiceQuestion(){return false;}
+    //stub
+
 }
