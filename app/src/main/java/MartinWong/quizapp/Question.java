@@ -54,5 +54,7 @@ public class Question {
     //stub
     public boolean isMultipleChoiceQuestion(){return false;}
     //stub
-
+    public boolean isMultipleImageChoiceQuestion(){
+        return false;
+    }
 }

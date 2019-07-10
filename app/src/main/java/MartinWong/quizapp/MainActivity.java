@@ -2,6 +2,7 @@ package MartinWong.quizapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -117,11 +118,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if (view.getId()==R.id.a_button)
         {
-
-//            checkAnswer(mTextView.getInputType());
-
             checkAnswer(0);
             score_view.setText("Score: " + score);
+            mAbutton.setBackgroundColor(Color.GREEN);
+        }
+        else if (view.getId()==R.id.b_button)
+        {
+            checkAnswer(1);
+            score_view.setText("Score: " + score);
+            mBbutton.setBackgroundColor(Color.RED);
+        }
+        else if (view.getId()==R.id.c_button)
+        {
+            checkAnswer(2);
+            score_view.setText("Score: " + score);
+            mCbutton.setBackgroundColor(Color.RED);
+        }
+        else if (view.getId()==R.id.d_button)
+        {
+            checkAnswer(3);
+            score_view.setText("Score: " + score);
+            mDbutton.setBackgroundColor(Color.RED);
         }
         else if(view.getId()== R.id.next_button)
         {
@@ -247,6 +264,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(mQuestions[mIndex].checkAnswer(userInput))
         {
             score++;
+            mCheckButton.setBackgroundColor(Color.GREEN);
             Toast myToast = Toast.makeText(this, "You are correct", Toast.LENGTH_LONG);
             myToast.show();
             return true;
@@ -254,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else
         {
             score--;
+            mCheckButton.setBackgroundColor(Color.RED);
             Toast myToast = Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT);
             myToast.show();
             return false;
